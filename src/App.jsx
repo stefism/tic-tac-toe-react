@@ -34,25 +34,20 @@ function App() {
     gameBoard[row][col] = player;
   }
 
-  WINNING_COMBINATIONS.forEach((combination) => {});
+  let winner;
 
-  //const [activePlayer, setActivePlayer] = useState("X");
+  WINNING_COMBINATIONS.forEach((combination) => {
+    const firstSquaresSymbol = gameBoard[combination[0].row][combination[0].column];
+    const secondSquaresSymbol = gameBoard[combination[1].row][combination[1].column];
+    const thirdSquaresSymbol = gameBoard[combination[2].row][combination[2].column];
 
-  // let currentPlayer = "X";
-
-  // if (gameTurns.length > 0 && gameTurns[0].player == "X") {
-  //   currentPlayer = "O";
-  // }
+    if (firstSquaresSymbol && firstSquaresSymbol == secondSquaresSymbol && firstSquaresSymbol == thirdSquaresSymbol) {
+      winner = firstSquaresSymbol;
+    }
+  });
 
   function handleSelectSquare(rowIndex, colIndex) {
-    //setActivePlayer((currActivePlayer) => (currActivePlayer == "X" ? "O" : "X"));
     setGameTurns((prevTurns) => {
-      // let currentPlayer = "X";
-
-      // if (prevTurns.length > 0 && prevTurns[0].player == "X") {
-      //   currentPlayer = "O";
-      // }
-
       const currentPlayer = deriveActivePlayer(prevTurns);
 
       const updatedTurns = [
@@ -74,7 +69,8 @@ function App() {
           <Player name="Player 1" symbol="X" isActive={activePlayer == "X"} />
           <Player name="Player 2" symbol="O" isActive={activePlayer == "O"} />
         </ol>
-        <GameBoard onSelectSquare={handleSelectSquare} turns={gameTurns} />
+        {winner && <p>You won, {winner}!</p>}
+        <GameBoard onSelectSquare={handleSelectSquare} board={gameBoard} />
       </div>
       <Log turns={gameTurns} />
     </main>
