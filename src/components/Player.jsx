@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function Player({ name, symbol, isActive }) {
+export default function Player({ name, symbol, isActive, onChangeName }) {
   const [isEditing, setIsEditing] = useState(false);
   const [playerName, setPlayerName] = useState(name);
 
@@ -10,6 +10,9 @@ export default function Player({ name, symbol, isActive }) {
     setIsEditing((editing) => !editing); // Правилно е стейта да се ъпдейтва така, с функция, вместо както е горе.
     // Това ни гарантира, че Реакт ще вземе правилно, последното състояние на стейта и ще го промени към новото.
     // Прави се когато новото състояние на стейта, трябва да е базирано на предишното.
+    if (isEditing) {
+      onChangeName(symbol, playerName);
+    }
   }
 
   function handleChangeName(event) {
